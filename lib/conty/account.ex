@@ -4,7 +4,7 @@ defmodule Conty.Account do
   alias Conty.Account
 
   schema "accounts" do
-    field(:name, :date)
+    field(:name, :string)
 
     timestamps()
   end

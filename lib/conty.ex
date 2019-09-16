@@ -1,7 +1,7 @@
 defmodule Conty do
   import Ecto.Query, warn: false
 
-  alias Conty.{Entry, EntryItem, Repo}
+  alias Conty.{Account, Entry, EntryItem, Repo}
 
   @moduledoc """
   Documentation for Conty.
@@ -18,6 +18,12 @@ defmodule Conty do
   """
   def hello do
     :world
+  end
+
+  def create_account(attrs \\ %{}) do
+    %Account{}
+    |> Account.changeset(attrs)
+    |> Repo.insert
   end
 
   def list_entries() do
