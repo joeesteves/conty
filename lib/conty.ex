@@ -1,7 +1,11 @@
 defmodule Conty do
   import Ecto.Query, warn: false
 
-  alias Conty.{Account, Entry, EntryItem, Repo}
+  alias Conty.{Account, Entry, EntryItem}
+
+  def repo do
+    Application.get_env(:conty, :ecto_repos) |> List.first
+  end
 
   @moduledoc """
   Documentation for Conty.
@@ -23,18 +27,18 @@ defmodule Conty do
   def create_account(attrs \\ %{}) do
     %Account{}
     |> Account.changeset(attrs)
-    |> Repo.insert
+    |> repo().insert
   end
 
   def list_entries() do
     Entry
-    |> Repo.all()
-    |> Repo.preload(:entry_items)
+    |> repo().all()
+    |> repo().preload(:entry_items)
   end
 
   def create_entry(attrs \\ %{}) do
     %Entry{}
     |> Entry.changeset(attrs)
-    |> Repo.insert()
+    |> repo().insert()
   end
 end
