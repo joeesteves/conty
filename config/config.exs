@@ -7,3 +7,5 @@ config :conty, Conty.Repo,
   hostname: "localhost"
 
 config :conty, ecto_repos: [Conty.Repo]
+
+import_config "#{Mix.env()}.exs"
