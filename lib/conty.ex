@@ -24,6 +24,11 @@ defmodule Conty do
     :world
   end
 
+  def list_accounts() do
+    Account
+    |> repo().all()
+  end
+
   def create_account(attrs \\ %{}) do
     %Account{}
     |> Account.changeset(attrs)
