@@ -4,7 +4,7 @@ defmodule Conty.MixProject do
   def project do
     [
       app: :conty,
-      version: "0.1.1",
+      version: "0.2.0",
       elixir: "~> 1.9",
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
