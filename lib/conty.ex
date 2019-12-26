@@ -7,21 +7,9 @@ defmodule Conty do
     Application.get_env(:conty, :ecto_repos) |> List.first
   end
 
-  @moduledoc """
-  Documentation for Conty.
-  """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> Conty.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def list_accounts do
+    Account
+    |> repo.all()
   end
 
   def list_accounts() do
@@ -32,18 +20,19 @@ defmodule Conty do
   def create_account(attrs \\ %{}) do
     %Account{}
     |> Account.changeset(attrs)
-    |> repo().insert
+    |> repo.insert()
   end
+
 
   def list_entries() do
     Entry
-    |> repo().all()
-    |> repo().preload(:entry_items)
+    |> repo.all()
+    |> repo.preload(:entry_items)
   end
 
   def create_entry(attrs \\ %{}) do
     %Entry{}
     |> Entry.changeset(attrs)
-    |> repo().insert()
+    |> repo.insert()
   end
 end

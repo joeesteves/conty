@@ -19,4 +19,5 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/conty](https://hexdocs.pm/conty).
 
+`mix conty install to migrations`
 # conty
