@@ -7,11 +7,6 @@ defmodule Conty do
     Application.get_env(:conty, :ecto_repos) |> List.first
   end
 
-  def list_accounts do
-    Account
-    |> repo.all()
-  end
-
   def list_accounts() do
     Account
     |> repo().all()
