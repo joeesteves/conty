@@ -4,6 +4,7 @@ defmodule Conty.Repo.Migrations.Accounts do
   def change do
     create table(:accounts) do
       add(:name, :string)
+      add(:type, :integer)
 
       timestamps()
     end
