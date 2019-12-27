@@ -15,7 +15,7 @@ defmodule Conty.Account do
   def changeset(%Account{} = account, attrs) do
     account
     |> Ecto.Changeset.cast(attrs, ~w(name type)a)
-    |> Ecto.Changeset.validate_inclusion(:type, 1..5)
+    |> Ecto.Changeset.validate_inclusion(:type, 1..4)
   end
 
   def type_by_key(key) do
