@@ -1,8 +1,11 @@
 defmodule Conty.Transaction do
-  use Ecto.Schema
   @moduledoc """
     type is the name of the module transactionable string
   """
+
+  use Ecto.Schema
+  import Ecto.Changest
+  alias Conty.Transaction
 
   schema "transactions" do
     field :type, :string
@@ -10,6 +13,12 @@ defmodule Conty.Transaction do
 
     # TODO: MAYBE has_many through later to support groups
     belongs_to :entry, Conty.Entry
+  end
+
+  def changeset(%Transaction{} = transaction, attrs \\ %{}) do
+    transaction
+    |> cast(attrs, [:type, :terms])
+    |> cast_assoc(:entry)
   end
 
   def cast(transactionable) do
