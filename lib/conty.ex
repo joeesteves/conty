@@ -12,6 +12,15 @@ defmodule Conty do
     |> repo().all()
   end
 
+  def list_accounts_by_type(type_key) do
+    query =
+      from(a in Account,
+        where: a.type == ^Account.type_by_key(type_key)
+      )
+
+    repo().all(query)
+  end
+
   def create_account(attrs \\ %{}) do
     %Account{}
     |> Account.changeset(attrs)
