@@ -7,6 +7,7 @@ defmodule Conty.EntryItem do
 
   schema "entry_items" do
     field :amount, :decimal
+    field :due, :date
 
     belongs_to :entry, Entry
     belongs_to :account, Account
@@ -15,6 +16,7 @@ defmodule Conty.EntryItem do
   def changeset(%EntryItem{} = entry_item, attrs) do
     entry_item
     |> cast(attrs, [
+      :due,
       :amount,
       :account_id
     ])

@@ -5,7 +5,6 @@ defmodule Conty.Repo.Migrations.Accounts do
     create table(:accounts) do
       add(:name, :string)
       add(:type, :integer)
-      add(:tags, :array)
 
       timestamps()
     end
