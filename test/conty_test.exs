@@ -3,7 +3,7 @@ defmodule ContyTest do
 
   alias Conty.Account
 
-  setup :setup
+  setup :seeds
 
   describe "accounts" do
     test ".list_account_by_type" do
@@ -12,7 +12,7 @@ defmodule ContyTest do
     end
   end
 
-  def setup(_context) do
+  def seeds(_context) do
     [
       %{name: "Bank", type: Account.type_by_key(:cash)},
       %{name: "Receivable", type: Account.type_by_key(:due)},
