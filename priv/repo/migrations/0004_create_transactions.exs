@@ -3,10 +3,12 @@ defmodule Conty.Repo.Migrations.CreateTransactions do
 
   def change do
     create table(:transactions) do
+      add(:date, :date)
+      add(:due_base_date, :d|ate)
+
       add(:amount, :decimal)
       add(:type, :string)
       add(:terms, :string)
-
       add(:entry_id, references(:entries, on_delete: :delete_all))
       add(:account_due_id, references(:accounts))
       add(:account_pay_id, references(:accounts))

@@ -1,6 +1,8 @@
 defmodule Conty.Transaction.Macros do
   defmacro fields(type \\ nil) do
     quote do
+      field(:date, :date)
+      field(:due_base_date, :date)
       field(:amount, :decimal)
       field(:type, :string, defaul: unquote(type))
       field(:term_generator, :string)
