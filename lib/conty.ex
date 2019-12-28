@@ -29,13 +29,13 @@ defmodule Conty do
 
   def list_entries() do
     Entry
-    |> repo.all()
-    |> repo.preload(:entry_items)
+    |> repo().all()
+    |> repo().preload(:entry_items)
   end
 
   def create_entry(attrs \\ %{}) do
     %Entry{}
     |> Entry.changeset(attrs)
-    |> repo.insert()
+    |> repo().insert()
   end
 end
