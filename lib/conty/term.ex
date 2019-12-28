@@ -23,7 +23,7 @@ defmodule Conty.Term do
   end
 
   def generate(transaction) do
-    D.set_context(%D.Context{D.get_context() | precision: 8})
+    D.set_context(%D.Context{D.get_context() | precision: 4})
 
     terms_generator = transaction.terms_generator
 
@@ -72,12 +72,12 @@ defmodule Conty.Term do
 
     percent = cond do
       length == lap ->
-        D.set_context(%D.Context{D.get_context() | precision: 10})
+        # D.set_context(%D.Context{D.get_context() | precision: 4})
         installment |> D.mult(D.new(idx)) |> D.minus() |> D.add(D.new(100))
       true ->
         installment
     end
-    D.set_context(%D.Context{D.get_context() | precision: 7})
+    # D.set_context(%D.Context{D.get_context() | precision: 4})
     percent
   end
 end

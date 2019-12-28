@@ -5,7 +5,7 @@ defmodule Conty.Transaction.Macros do
       field(:due_base_date, :date)
       field(:amount, :decimal)
       field(:type, :string, defaul: unquote(type))
-      field(:term_generator, :string)
+      field(:terms_generator, :string)
 
       belongs_to(:account_due_id, Conty.Account)
       belongs_to(:account_pay_id, Conty.Account)

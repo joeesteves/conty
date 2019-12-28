@@ -8,7 +8,8 @@ defmodule Conty.Repo.Migrations.CreateTransactions do
 
       add(:amount, :decimal)
       add(:type, :string)
-      add(:terms, :string)
+      add(:terms_generator, :string)
+
       add(:entry_id, references(:entries, on_delete: :delete_all))
       add(:account_due_id, references(:accounts))
       add(:account_pay_id, references(:accounts))
