@@ -1,13 +1,14 @@
 defmodule Conty.Transaction.Income do
   use Conty.Transaction
+  alias Conty.Transaction
 
   embedded_schema do
     Conty.Transaction.Macros.fields()
     # field :extend_transaccion_wth_fields_desc, :string
   end
 
-  def changeset(%Conty.Transaction.Income{} = income, attrs) do
-    Ecto.Changeset.cast(income, attrs, [:type, :terms])
+  def changeset(%Transaction.Income{} = income, attrs) do
+    Ecto.Changeset.cast(income, attrs, Transaction.required_fields() ++ [])
   end
 end
 

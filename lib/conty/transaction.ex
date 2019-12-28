@@ -15,10 +15,13 @@ defmodule Conty.Transaction do
 
   def changeset(%Transaction{} = transaction, attrs) do
     transaction
-    |> Ecto.Changeset.cast(attrs, [:type, :terms])
+    |> Ecto.Changeset.cast(attrs, required_fields())
     |> Ecto.Changeset.cast_assoc(:entry)
   end
 
+  def required_fields do
+    ~w(type terms)a
+  end
   def cast_from(transactionable) do
     Conty.Transactionable.cast_from(transactionable)
   end
