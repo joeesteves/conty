@@ -12,18 +12,19 @@ defmodule Conty.Transaction do
   end
 
   @callback changeset(transaction :: term , attrs :: term) :: term
-  @callback accounts_debit() :: [term]
-  @callback accounts_credit() :: [term]
-  @callback accounts_pay() :: [term]
+  @callback accounts_for_items() :: [term]
+  @callback accounts_for_due() :: [term]
+  @callback accounts_for_pay() :: [term]
   def changeset(%Transaction{} = transaction, attrs) do
     transaction
-    |> Ecto.Changeset.cast(attrs, required_fields())
-    |> Ecto.Changeset.cast_assoc(:entry)
+    |> Ecto.Changeset.cast(attrs, casted_fields())
+    |> Ecto.Changeset.cast_assoc(:items)
   end
 
-  def required_fields do
-    ~w(type terms)a
+  def casted_fields do
+    ~w(amount type terms accounts_due_id accounts_pay_id)a
   end
+
   def cast_from(transactionable) do
     Conty.Transactionable.cast_from(transactionable)
   end

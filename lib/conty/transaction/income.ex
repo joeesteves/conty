@@ -8,14 +8,13 @@ defmodule Conty.Transaction.Income do
 
   def changeset(%Transaction.Income{} = income, attrs) do
     income
-    |> cast(attrs, Transaction.required_fields() ++ [])
+    |> cast(attrs, Transaction.casted_fields() ++ [])
     |> cast_assoc(:entry)
   end
 
-  def accounts_debit, do: Conty.list_accounts_by_type(~w(income)a)
-  def accounts_credit, do: Conty.list_accounts_by_type(~w(cash receivable)a)
-  def accounts_pay, do: Conty.list_accounts_by_type(~w(cash)a)
-
+  def accounts_for_items, do: Conty.list_accounts_by_type(~w(income)a)
+  def accounts_for_due, do: Conty.list_accounts_by_type(~w(cash receivable)a)
+  def accounts_for_pay, do: Conty.list_accounts_by_type(~w(cash)a)
 end
 
 defimpl Conty.Transactionable, for: Conty.Transaction.Income do

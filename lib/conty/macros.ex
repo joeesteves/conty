@@ -3,13 +3,15 @@ defmodule Conty.Transaction.Macros do
     quote do
       field(:amount, :decimal)
       field(:type, :string, defaul: unquote(type))
-      field(:terms, :string)
+      field(:term_generator, :string)
 
-      field(:account_debit_id, :integer)
-      field(:account_credit_id, :integer)
-      field(:account_pay_id, :integer)
+      belongs_to(:account_due_id, Conty.Account)
+      belongs_to(:account_pay_id, Conty.Account)
       # TODO: MAYBE has_many through later to support groups
       belongs_to(:entry, Conty.Entry)
+
+      has_many(:items, Conty.TransactionItem)
+      has_many(:terms, Conty.Term)
     end
   end
 end

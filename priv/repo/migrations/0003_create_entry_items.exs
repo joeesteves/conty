@@ -9,6 +9,5 @@ defmodule Conty.Repo.Migrations.CreateEntryItems do
     end
 
     create(index(:entry_items, [:entry_id]))
-
   end
 end

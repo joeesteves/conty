@@ -1,4 +1,4 @@
-defmodule Conty.Repo.Migrations.Accounts do
+defmodule Conty.Repo.Migrations.CreateAccounts do
   use Ecto.Migration
 
   def change do
