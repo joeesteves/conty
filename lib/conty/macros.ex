@@ -10,8 +10,8 @@ defmodule Conty.Transaction.Macros do
       # TODO: MAYBE has_many through later to support groups
       belongs_to(:entry, Conty.Entry)
 
-      has_many(:items, Conty.TransactionItem)
-      has_many(:terms, Conty.Term)
+      has_many(:items, Conty.TransactionItem, foreign_key: :transaction_id)
+      has_many(:terms, Conty.Term, foreign_key: :transaction_id)
     end
   end
 end
