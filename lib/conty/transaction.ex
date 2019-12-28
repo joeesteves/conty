@@ -8,11 +8,13 @@ defmodule Conty.Transaction do
   require Conty.Transaction.Macros
 
   schema "transactions" do
-    Conty.Transaction.Macros.fields
+    Conty.Transaction.Macros.fields()
   end
 
   @callback changeset(transaction :: term , attrs :: term) :: term
-
+  @callback accounts_debit() :: [term]
+  @callback accounts_credit() :: [term]
+  @callback accounts_pay() :: [term]
   def changeset(%Transaction{} = transaction, attrs) do
     transaction
     |> Ecto.Changeset.cast(attrs, required_fields())
@@ -43,6 +45,7 @@ defmodule Conty.Transaction do
       @behaviour Conty.Transaction
 
       use Ecto.Schema
+      import Ecto.Changeset
       require Conty.Transaction.Macros
     end
   end

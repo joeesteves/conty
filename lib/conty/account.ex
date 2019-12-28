@@ -3,7 +3,7 @@ defmodule Conty.Account do
 
   alias Conty.Account
 
-  @types [{:cash, 1}, {:due, 2},  {:equity, 3}, {:result, 4}]
+  @types [{:cash, 11}, {:receivable, 12}, {:payable, 22}, {:equity, 30}, {:income, 40}, {:outcome, 50}]
 
   schema "accounts" do
     field(:name, :string)
@@ -15,7 +15,7 @@ defmodule Conty.Account do
   def changeset(%Account{} = account, attrs) do
     account
     |> Ecto.Changeset.cast(attrs, ~w(name type)a)
-    |> Ecto.Changeset.validate_inclusion(:type, 1..4)
+    # |> Ecto.Changeset.validate_inclusion(:type, 1..4)
   end
 
   def type_by_key(key) do

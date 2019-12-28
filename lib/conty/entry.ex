@@ -1,5 +1,6 @@
 defmodule Conty.Entry do
   use Ecto.Schema
+  import Ecto.Changeset
 
   alias Conty.{Entry, EntryItem}
   alias Decimal, as: D
@@ -15,11 +16,11 @@ defmodule Conty.Entry do
 
   def changeset(%Entry{} = entry, attrs) do
     entry
-    |> Ecto.Changeset.cast(attrs, [
+    |> cast(attrs, [
       :date,
       :description
     ])
-    |> Ecto.Changeset.cast_assoc(:entry_items)
+    |> cast_assoc(:entry_items)
     |> validate_balance
   end
 

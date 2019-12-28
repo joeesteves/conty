@@ -11,10 +11,10 @@ defmodule Conty do
     |> repo().all()
   end
 
-  def list_accounts_by_type(type_key) do
+  def list_accounts_by_type(type_keys) do
     query =
       from(a in Account,
-        where: a.type == ^Account.type_by_key(type_key)
+        where: a.type in ^Enum.map(type_keys, &(Account.type_by_key(&1)))
       )
 
     repo().all(query)

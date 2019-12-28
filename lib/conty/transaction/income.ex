@@ -3,13 +3,19 @@ defmodule Conty.Transaction.Income do
   alias Conty.Transaction
 
   embedded_schema do
-    Conty.Transaction.Macros.fields()
-    # field :extend_transaccion_wth_fields_desc, :string
+    Conty.Transaction.Macros.fields("income")
   end
 
   def changeset(%Transaction.Income{} = income, attrs) do
-    Ecto.Changeset.cast(income, attrs, Transaction.required_fields() ++ [])
+    income
+    |> cast(attrs, Transaction.required_fields() ++ [])
+    |> cast_assoc(:entry)
   end
+
+  def accounts_debit, do: Conty.list_accounts_by_type(~w(income)a)
+  def accounts_credit, do: Conty.list_accounts_by_type(~w(cash receivable)a)
+  def accounts_pay, do: Conty.list_accounts_by_type(~w(cash)a)
+
 end
 
 defimpl Conty.Transactionable, for: Conty.Transaction.Income do
