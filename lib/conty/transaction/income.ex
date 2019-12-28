@@ -11,7 +11,7 @@ defmodule Conty.Transaction.Income do
   end
 end
 
-defimpl Conty.Transactionable, for: Conty.Transaction.Buy do
+defimpl Conty.Transactionable, for: Conty.Transaction.Income do
   def cast_from(_transactionable) do
     %Conty.Transaction{}
   end

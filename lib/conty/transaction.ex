@@ -4,6 +4,7 @@ defmodule Conty.Transaction do
   """
   use Ecto.Schema
   alias Conty.Transaction
+
   require Conty.Transaction.Macros
 
   schema "transactions" do
@@ -26,6 +27,14 @@ defmodule Conty.Transaction do
     Conty.Transactionable.cast_to(transactionable, transaction)
   end
 
+  def cast_to_by_type(%Conty.Transaction{type: type} = transaction) do
+    type = String.capitalize(type)
+    target_module = String.to_existing_atom("Elixir.Conty.Transaction." <> type)
+    target_struct = apply(target_module, :__struct__, [])
+
+    apply(__MODULE__, :cast_to, [target_struct, transaction])
+  end
+
   defmacro __using__(_opts) do
     quote do
       @behaviour Conty.Transaction
@@ -35,7 +44,6 @@ defmodule Conty.Transaction do
     end
   end
 end
-
 
 defprotocol Conty.Transactionable do
   @type transactionable :: %{type: String.t, terms: String.t}

@@ -1,6 +1,5 @@
 defmodule Conty do
   import Ecto.Query, warn: false
-
   alias Conty.{Account, Entry}
 
   def repo do
