@@ -25,7 +25,7 @@ defmodule TransactionIncomeTest do
 
       income = Ecto.Changeset.apply_changes(income)
 
-      assert income.entry.entry_items == %{}
+      assert income.entry.items == %{}
     end
   end
 

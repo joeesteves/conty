@@ -12,7 +12,7 @@ defmodule Conty.Entry do
     if organization = Application.get_env(:conty, :options)[:organization_module] do
       belongs_to(:organization, organization)
     end
-    has_many :entry_items, EntryItem
+    has_many :items, EntryItem
 
     timestamps()
   end

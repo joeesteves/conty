@@ -39,7 +39,7 @@ defmodule Conty do
   end
 
   def preload_transaction(transactionable) do
-    transaction = repo().preload(%Conty.Transaction{}, [:items, :entry])
+    transaction = repo().preload(%Conty.Transaction{}, [:items, entry: [:items]])
 
     Conty.Transaction.cast_to(transactionable, transaction)
   end

@@ -31,10 +31,12 @@ defimpl Conty.Transactionable, for: Conty.Transaction.Income do
     %Conty.Transaction{}
   end
 
-  def cast_to(_transactionable, %Conty.Transaction{} = _transaction) do
+  def cast_to(transactionable, %Conty.Transaction{} = transaction) do
+    IO.inspect(transaction)
+
     %Conty.Transaction.Income{
-      items: [],
-      entry: %Conty.Entry{entry_items: []}
+      items: transaction.items,
+      entry: transaction.entry
     }
   end
 end
