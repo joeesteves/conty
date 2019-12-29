@@ -22,7 +22,7 @@ defmodule Conty.Transaction do
   end
 
   def casted_fields do
-    ~w(amount type terms accounts_due_id accounts_pay_id)a
+    ~w(date due_base_date amount type terms_generator account_due_id account_pay_id)a
   end
 
   def cast_from(transactionable) do

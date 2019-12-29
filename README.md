@@ -1,7 +1,5 @@
 # Conty
 
-**TODO: Add description**
-
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
@@ -10,7 +8,7 @@ by adding `conty` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:conty, "~> 0.1.0"}
+    {:conty, "~> 0.2.0"}
   ]
 end
 ```
@@ -19,5 +17,14 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/conty](https://hexdocs.pm/conty).
 
-`mix conty install to migrations`
+### Copy migrations
+  `$> mix conty install to migrations`
+
+### Configuration
+
+in your config.exs file
+
+config :conty, :options,
+  organization_module: 'Organization module related to transactions and entries, if module is passed here you must uncomment organization_id lines on migrations before running them'
+
 # conty

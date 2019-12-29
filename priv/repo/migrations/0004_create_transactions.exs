@@ -13,6 +13,8 @@ defmodule Conty.Repo.Migrations.CreateTransactions do
       add(:entry_id, references(:entries, on_delete: :delete_all))
       add(:account_due_id, references(:accounts))
       add(:account_pay_id, references(:accounts))
+
+      # add(:organization_id, references(:organizations))
     end
 
     create(index(:transactions, [:entry_id]))

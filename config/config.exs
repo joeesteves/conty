@@ -8,4 +8,6 @@ config :conty, Conty.Repo,
 
 config :conty, ecto_repos: [Conty.Repo]
 
+config :conty, :options, organization_module: nil
+
 import_config "#{Mix.env()}.exs"

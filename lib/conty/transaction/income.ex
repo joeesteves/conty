@@ -3,13 +3,13 @@ defmodule Conty.Transaction.Income do
   alias Conty.Transaction
 
   embedded_schema do
-    Conty.Transaction.Macros.fields("income")
+    Conty.Transaction.Macros.fields(type: "income")
   end
 
   def changeset(%Transaction.Income{} = income, attrs) do
     income
     |> cast(attrs, Transaction.casted_fields() ++ [])
-    |> cast_assoc(:entry)
+    |> cast_assoc(:items)
   end
 
   def accounts_for_items, do: Conty.list_accounts_by_type(~w(income)a)

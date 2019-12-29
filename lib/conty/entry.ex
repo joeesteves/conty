@@ -9,6 +9,9 @@ defmodule Conty.Entry do
     field :date, :date
     field :description, :string
 
+    if organization = Application.get_env(:conty, :options)[:organization_module] do
+      belongs_to(:organization, organization)
+    end
     has_many :entry_items, EntryItem
 
     timestamps()
