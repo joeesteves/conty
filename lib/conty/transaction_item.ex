@@ -1,5 +1,6 @@
 defmodule Conty.TransactionItem do
   use Ecto.Schema
+  import Ecto.Changeset
 
   schema "transaction_items" do
     field :amount, :decimal
@@ -7,6 +8,11 @@ defmodule Conty.TransactionItem do
 
     belongs_to :account, Conty.Account
     belongs_to :transaction, Conty.Transaction
+  end
 
+  def changeset(%Conty.TransactionItem{} = item, attrs) do
+    item
+    |> cast(attrs, [:amount, :description, :account_id, :transaction_id])
+    |> validate_required([:amount, :account_id, :transaction_id])
   end
 end
