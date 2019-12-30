@@ -4,7 +4,7 @@ defmodule Conty.Repo.Migrations.CreateTransactions do
   def change do
     create table(:transactions) do
       add(:date, :date)
-      add(:due_base_date, :d|ate)
+      add(:due_base_date, :date)
 
       add(:amount, :decimal)
       add(:type, :string)

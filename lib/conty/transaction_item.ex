@@ -13,6 +13,6 @@ defmodule Conty.TransactionItem do
   def changeset(%Conty.TransactionItem{} = item, attrs) do
     item
     |> cast(attrs, [:amount, :description, :account_id, :transaction_id])
-    |> validate_required([:amount, :account_id, :transaction_id])
+    |> validate_required([:amount])
   end
 end

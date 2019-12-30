@@ -53,11 +53,9 @@ defmodule Conty.Transaction do
 end
 
 defprotocol Conty.Transactionable do
-  @type transactionable :: %{type: String.t, terms: String.t}
-
   @spec cast_from(any) :: %Conty.Transaction{}
   def cast_from(transactionable)
 
-  @spec cast_to(transactionable, %Conty.Transaction{}) :: transactionable
+  @spec cast_to(any, %Conty.Transaction{}) :: any
   def cast_to(transactionable, transaction)
 end

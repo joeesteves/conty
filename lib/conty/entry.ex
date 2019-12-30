@@ -23,7 +23,7 @@ defmodule Conty.Entry do
       :date,
       :description
     ])
-    |> cast_assoc(:entry_items)
+    |> cast_assoc(:items)
     |> validate_balance
   end
 

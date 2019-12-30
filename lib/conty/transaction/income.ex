@@ -22,7 +22,13 @@ defmodule Conty.Transaction.Income do
     # account debit (items) and credit (account_due)
     # for each item I create an entry_item
     # for each term I create an entry_item_due
-    changeset
+    case get_change(changeset, :items) do
+      items ->
+        IO.inspect items.changes
+        changeset
+      nil ->
+        changeset
+    end
   end
 end
 
@@ -31,12 +37,10 @@ defimpl Conty.Transactionable, for: Conty.Transaction.Income do
     %Conty.Transaction{}
   end
 
-  def cast_to(transactionable, %Conty.Transaction{} = transaction) do
-    IO.inspect(transaction)
+  def cast_to(_transactionable, %Conty.Transaction{} = transaction) do
+    transaction_map = Map.from_struct(transaction)
 
-    %Conty.Transaction.Income{
-      items: transaction.items,
-      entry: transaction.entry
-    }
+    Conty.Transaction.Income.changeset(%Conty.Transaction.Income{items: []}, transaction_map)
+    |> Ecto.Changeset.apply_changes()
   end
 end
