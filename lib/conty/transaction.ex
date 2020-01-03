@@ -14,6 +14,7 @@ defmodule Conty.Transaction do
     field(:amount, :decimal)
     field(:type, :string)
     field(:terms_generator, :string)
+    field(:terms, {:array, :map})
 
     belongs_to(:account_due, Conty.Account)
     belongs_to(:account_pay, Conty.Account)
@@ -25,7 +26,6 @@ defmodule Conty.Transaction do
     end
 
     has_many(:items, Conty.TransactionItem, foreign_key: :transaction_id)
-    has_many(:terms, Conty.Term, foreign_key: :transaction_id)
   end
 
   @callback changeset(transaction :: term, attrs :: term) :: term

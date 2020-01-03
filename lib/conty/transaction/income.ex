@@ -13,10 +13,10 @@ defmodule Conty.Transaction.Income do
   def changeset(%Transaction.Income{} = income, attrs) do
     income
     |> cast(attrs, Transaction.casted_fields_flattened() ++ [])
-    |> process_entry
+    |> build_terms
   end
 
-  defp process_entry(changeset) do
+  defp build_terms(changeset) do
     #To create an entry I need
     # account debit (items) and credit (account_due)
     # for each item I create an entry_item
@@ -25,7 +25,7 @@ defmodule Conty.Transaction.Income do
       nil ->
         changeset
       _items ->
-        changeset
+        change(changeset, %{terms: Conty.Term.generate(apply_changes(changeset))})
     end
   end
 end

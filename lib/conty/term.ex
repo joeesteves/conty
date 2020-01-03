@@ -5,11 +5,9 @@ defmodule Conty.Term do
   alias Decimal, as: D
   alias Conty.Term
 
-  schema "terms" do
+  embedded_schema do
     field(:date, :date)
     field(:percent, :decimal)
-
-    belongs_to(:transaction, Conty.Transaction)
   end
 
   def changeset(%Term{} = term, attrs) do
@@ -55,12 +53,11 @@ defmodule Conty.Term do
   end
 
   defp parsePercent(transaction, [length: _, days: days, percent: percent], _) do
-    %Term{transaction_id: transaction.id, date: transaction.due_base_date |> add(days), percent: D.new(percent)}
+    %Term{date: transaction.due_base_date |> add(days), percent: D.new(percent)}
   end
 
   defp parsePercent(transaction, [length: length, days: days], idx) do
     %Term{
-      transaction_id: transaction.id,
       date: transaction.due_base_date |> add(days),
       percent: calculatePercent(length, idx)
     }

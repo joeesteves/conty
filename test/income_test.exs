@@ -11,7 +11,7 @@ defmodule TransactionIncomeTest do
         Income.changeset(%Income{}, %{
           date: Date.utc_today(),
           due_base_date: Date.utc_today(),
-          terms_generator: "c0",
+          terms_generator: "0",
           account_due_id: 3,
           account_pay_id: 4,
           items: [
@@ -23,7 +23,7 @@ defmodule TransactionIncomeTest do
         })
       |> Ecto.Changeset.apply_changes()
 
-      assert income.items == [%{}]
+      assert income.terms == [%{}]
     end
   end
 
