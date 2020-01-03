@@ -39,5 +39,17 @@ defmodule TermTest do
       assert Decimal.eq?(percent, Decimal.cast(33.33))
       assert Decimal.eq?(percent2, Decimal.cast(33.34))
     end
+    # TODO: c0 should return {:error, :bad_argument}
+    test "generates error" do
+      transaction = %Transaction{
+        due_base_date: ~D[2020-01-01],
+        terms_generator: "c0"
+      }
+
+      result = Term.generate(transaction)
+      assert %{terms: terms} = result
+      assert terms |> length == 1
+      assert [%Term{} | _] = terms
+    end
   end
 end
