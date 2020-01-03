@@ -12,8 +12,7 @@ defmodule Conty.Transaction.Income do
 
   def changeset(%Transaction.Income{} = income, attrs) do
     income
-    |> cast(attrs, Transaction.casted_fields() ++ [])
-    |> cast_assoc(:items)
+    |> cast(attrs, Transaction.casted_fields_flattened() ++ [])
     |> process_entry
   end
 
@@ -23,24 +22,25 @@ defmodule Conty.Transaction.Income do
     # for each item I create an entry_item
     # for each term I create an entry_item_due
     case get_change(changeset, :items) do
-      items ->
-        IO.inspect items.changes
-        changeset
       nil ->
+        changeset
+      _items ->
         changeset
     end
   end
 end
 
 defimpl Conty.Transactionable, for: Conty.Transaction.Income do
+  alias Conty.Transaction.Income
+  alias Conty.Transaction
   def cast_from(_transactionable) do
     %Conty.Transaction{}
   end
 
-  def cast_to(_transactionable, %Conty.Transaction{} = transaction) do
-    transaction_map = Map.from_struct(transaction)
+  def cast_to(_transactionable, %Transaction{} = transaction) do
+    income = %Income{} |> Map.merge(transaction)
+    items = transaction.items |> Enum.map(&Map.from_struct/1)
 
-    Conty.Transaction.Income.changeset(%Conty.Transaction.Income{items: []}, transaction_map)
-    |> Ecto.Changeset.apply_changes()
+    Map.put(income, :items, items)
   end
 end

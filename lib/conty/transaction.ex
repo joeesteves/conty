@@ -4,27 +4,48 @@ defmodule Conty.Transaction do
   """
   use Ecto.Schema
   alias Conty.Transaction
+  import Ecto.Changeset
 
   require Conty.Transaction.Macros
 
   schema "transactions" do
-    Conty.Transaction.Macros.fields()
+    field(:date, :date)
+    field(:due_base_date, :date)
+    field(:amount, :decimal)
+    field(:type, :string)
+    field(:terms_generator, :string)
+
+    belongs_to(:account_due, Conty.Account)
+    belongs_to(:account_pay, Conty.Account)
+    # TODO: MAYBE has_many through later to support groups
+    belongs_to(:entry, Conty.Entry)
+
+    if organization = Application.get_env(:conty, :options)[:organization_module] do
+      belongs_to(:organization, organization)
+    end
+
+    has_many(:items, Conty.TransactionItem, foreign_key: :transaction_id)
+    has_many(:terms, Conty.Term, foreign_key: :transaction_id)
   end
 
-  @callback changeset(transaction :: term , attrs :: term) :: term
+  @callback changeset(transaction :: term, attrs :: term) :: term
   @callback accounts_for_items() :: [term]
   @callback accounts_for_due() :: [term]
   @callback accounts_for_pay() :: [term]
   def changeset(%Transaction{} = transaction, attrs) do
     transaction
-    |> Ecto.Changeset.cast(attrs, casted_fields())
-    |> Ecto.Changeset.cast_assoc(:items)
+    |> cast(attrs, casted_fields())
+    |> cast_assoc(:items)
+    |> cast_assoc(:terms)
   end
 
-  def casted_fields do
+  defp casted_fields do
     ~w(date due_base_date amount type terms_generator account_due_id account_pay_id)a
   end
 
+  def casted_fields_flattened do
+    casted_fields() ++ ~w(items)a
+  end
   def cast_from(transactionable) do
     Conty.Transactionable.cast_from(transactionable)
   end

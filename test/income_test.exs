@@ -8,8 +8,7 @@ defmodule TransactionIncomeTest do
   describe "Income" do
     test "1 term" do
       income =
-        Conty.preload_transaction(%Income{})
-        |> Income.changeset(%{
+        Income.changeset(%Income{}, %{
           date: Date.utc_today(),
           due_base_date: Date.utc_today(),
           terms_generator: "c0",
@@ -22,10 +21,9 @@ defmodule TransactionIncomeTest do
             }
           ]
         })
+      |> Ecto.Changeset.apply_changes()
 
-      income = Ecto.Changeset.apply_changes(income)
-
-      assert income.entry.items == %{}
+      assert income.items == [%{}]
     end
   end
 
