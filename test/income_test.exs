@@ -23,7 +23,7 @@ defmodule TransactionIncomeTest do
         })
       |> Ecto.Changeset.apply_changes()
 
-      assert income.terms == [%{}]
+      assert income == [%{}]
     end
   end
 

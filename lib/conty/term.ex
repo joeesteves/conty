@@ -8,6 +8,7 @@ defmodule Conty.Term do
   embedded_schema do
     field(:date, :date)
     field(:percent, :decimal)
+    field(:amount, :decimal)
   end
 
   def changeset(%Term{} = term, attrs) do
@@ -57,9 +58,12 @@ defmodule Conty.Term do
   end
 
   defp parsePercent(transaction, [length: length, days: days], idx) do
-    %Term{
+    percent = calculatePercent(length, idx)
+    IO.inspect transaction
+        %Term{
       date: transaction.due_base_date |> add(days),
-      percent: calculatePercent(length, idx)
+      percent: percent,
+      amount: Decimal.mult(percent, transaction.amount) |> Decimal.div(100)
     }
   end
 

@@ -1,6 +1,7 @@
 defmodule Conty.Transaction.Income do
   use Conty.Transaction
   alias Conty.Transaction
+  alias Decimal, as: D
 
   embedded_schema do
     Conty.Transaction.Macros.fields(type: "income")
@@ -13,10 +14,10 @@ defmodule Conty.Transaction.Income do
   def changeset(%Transaction.Income{} = income, attrs) do
     income
     |> cast(attrs, Transaction.casted_fields_flattened() ++ [])
-    |> build_terms
+    |> build
   end
 
-  defp build_terms(changeset) do
+  defp build(changeset) do
     #To create an entry I need
     # account debit (items) and credit (account_due)
     # for each item I create an entry_item
@@ -24,9 +25,22 @@ defmodule Conty.Transaction.Income do
     case get_change(changeset, :items) do
       nil ->
         changeset
-      _items ->
-        change(changeset, %{terms: Conty.Term.generate(apply_changes(changeset))})
-    end
+      items ->
+        totalize_items(changeset, items)
+        |> build_terms
+      end
+  end
+
+  defp build_terms(changeset) do
+    change(changeset, %{terms: Conty.Term.generate(apply_changes(changeset))})
+  end
+
+  defp totalize_items(changeset, items) do
+    amount = Enum.reduce(items, D.cast(0), fn x, acc ->
+      D.add(D.cast(x.amount), acc)
+    end)
+
+    change(changeset, %{amount: amount})
   end
 end
 
