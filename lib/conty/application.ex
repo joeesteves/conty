@@ -11,5 +11,4 @@ defmodule Conty.Application do
     opts = [strategy: :one_for_one, name: Conty.Supervisor]
     Supervisor.start_link(children, opts)
   end
-
 end
