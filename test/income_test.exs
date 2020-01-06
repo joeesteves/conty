@@ -8,7 +8,7 @@ defmodule TransactionIncomeTest do
   describe "Income" do
     test "1 term" do
       income =
-        Income.changeset(%Income{}, %{
+        %Income{
           date: Date.utc_today(),
           due_base_date: Date.utc_today(),
           terms_generator: "0",
@@ -20,8 +20,9 @@ defmodule TransactionIncomeTest do
               account_id: 1
             }
           ]
-        })
-      |> Ecto.Changeset.apply_changes()
+        }
+        |> Income.build()
+        |> Conty.Transaction.cast_from()
 
       assert income == [%{}]
     end

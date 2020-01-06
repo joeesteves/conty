@@ -29,7 +29,7 @@ defmodule Conty do
   def list_entries() do
     Entry
     |> repo().all()
-    |> repo().preload(:entry_items)
+    |> repo().preload(:items)
   end
 
   def create_entry(attrs \\ %{}) do

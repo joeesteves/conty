@@ -14,41 +14,58 @@ defmodule Conty.Transaction.Income do
   def changeset(%Transaction.Income{} = income, attrs) do
     income
     |> cast(attrs, Transaction.casted_fields_flattened() ++ [])
-    |> build
   end
 
-  defp build(changeset) do
-    #To create an entry I need
-    # account debit (items) and credit (account_due)
-    # for each item I create an entry_item
-    # for each term I create an entry_item_due
-    case get_change(changeset, :items) do
-      nil ->
-        changeset
-      items ->
-        totalize_items(changeset, items)
-        |> build_terms
-      end
+  def build(income) do
+    income
+    |> totalize_items
+    |> build_terms
   end
 
-  defp build_terms(changeset) do
-    change(changeset, %{terms: Conty.Term.generate(apply_changes(changeset))})
+  defp build_terms(income) do
+    terms = Conty.Term.generate(income, -1)
+
+    %{income | terms: terms}
   end
 
-  defp totalize_items(changeset, items) do
-    amount = Enum.reduce(items, D.cast(0), fn x, acc ->
-      D.add(D.cast(x.amount), acc)
-    end)
+  defp totalize_items(income) do
+    amount =
+      Enum.reduce(income.items, D.cast(0), fn x, acc ->
+        D.add(D.cast(x.amount), acc)
+      end)
 
-    change(changeset, %{amount: amount})
+    %{income | amount: amount}
   end
 end
 
 defimpl Conty.Transactionable, for: Conty.Transaction.Income do
   alias Conty.Transaction.Income
   alias Conty.Transaction
-  def cast_from(_transactionable) do
-    %Conty.Transaction{}
+
+  def cast_from(transactionable) do
+    income_attrs =
+      Map.from_struct(transactionable)
+      |> build_entry()
+
+    Transaction.changeset(%Transaction{}, income_attrs)
+  end
+
+  defp build_entry(income_attrs) do
+    income_items = income_attrs.items
+    due_items = income_attrs.terms
+
+    entry_items =
+      for item <- income_items ++ due_items do
+        %{due: Map.get(item, :date), amount: item.amount, account_id: item.account_id}
+      end
+
+    entry_attrs = %{
+      date: Date.utc_today(),
+      description: "HELLO WORLD",
+      items: entry_items
+    }
+
+    Map.put(income_attrs, :entry, entry_attrs)
   end
 
   def cast_to(_transactionable, %Transaction{} = transaction) do

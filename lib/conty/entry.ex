@@ -28,8 +28,8 @@ defmodule Conty.Entry do
   end
 
   def validate_balance(changeset) do
-    Ecto.Changeset.validate_change(changeset, :entry_items, fn _, _ ->
-      items = Ecto.Changeset.apply_changes(changeset).entry_items
+    Ecto.Changeset.validate_change(changeset, :items, fn _, _ ->
+      items = Ecto.Changeset.apply_changes(changeset).items
       cond do
         (Enum.map(items, &(Map.get(&1, :amount))) |> Enum.reduce(D.new(0), &D.add(&1, &2))) == D.new(0) -> []
         true -> [error: "bad balance"]

@@ -14,6 +14,7 @@ defmodule Conty.Transaction do
     field(:amount, :decimal)
     field(:type, :string)
     field(:terms_generator, :string)
+
     field(:terms, {:array, :map})
 
     belongs_to(:account_due, Conty.Account)
@@ -33,10 +34,11 @@ defmodule Conty.Transaction do
   @callback accounts_for_due() :: [term]
   @callback accounts_for_pay() :: [term]
   def changeset(%Transaction{} = transaction, attrs) do
+    IO.inspect attrs
     transaction
     |> cast(attrs, casted_fields())
+    |> cast_assoc(:entry)
     |> cast_assoc(:items)
-    |> cast_assoc(:terms)
   end
 
   defp casted_fields do
@@ -54,7 +56,7 @@ defmodule Conty.Transaction do
     Conty.Transactionable.cast_to(transactionable, transaction)
   end
 
-  def cast_to_by_type(%Conty.Transaction{type: type} = transaction) do
+  def cast_to_type(%Conty.Transaction{type: type} = transaction) do
     type = String.capitalize(type)
     target_module = String.to_existing_atom("Elixir.Conty.Transaction." <> type)
     target_struct = apply(target_module, :__struct__, [])
