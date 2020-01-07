@@ -1,6 +1,6 @@
 defmodule Conty do
   import Ecto.Query, warn: false
-  alias Conty.{Account, Entry}
+  alias Conty.{Account, Entry, EntryItem}
 
   def repo do
     Application.get_env(:conty, :ecto_repos) |> List.first()
@@ -36,5 +36,15 @@ defmodule Conty do
     %Entry{}
     |> Entry.changeset(attrs)
     |> repo().insert()
+  end
+
+  def company_due(company_id) do
+    query = from(ei in EntryItem,
+    where: ei.company_id == ^company_id)
+
+    repo().all(query)
+    |> Enum.reduce(Decimal.cast(0), fn x,acc ->
+      Decimal.add(x.amount, acc)
+    end)
   end
 end

@@ -26,7 +26,7 @@ defmodule TransactionIncomeTest do
         |> Conty.Transaction.cast_from()
         |> Conty.Repo.insert
 
-        IO.inspect(income)
+        assert Conty.company_due(1) == Decimal.cast(-100)
     end
   end
 
