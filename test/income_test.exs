@@ -12,34 +12,35 @@ defmodule TransactionIncomeTest do
           date: Date.utc_today(),
           due_base_date: Date.utc_today(),
           terms_generator: "0",
-          account_due_id: 3,
-          account_pay_id: 4,
-          company_id: 1,
+          account_due_id: account(:receivable),
+          account_pay_id: account(:cash),
+          company_id: company(),
           items: [
             %{
               amount: 100,
-              account_id: 1
+              account_id: account(:income)
             }
           ]
         }
         |> Income.build()
         |> Conty.Transaction.cast_from()
+        |> Conty.Repo.insert
 
-      assert income == [%{}]
+        IO.inspect(income)
     end
   end
 
   def seeds(_context) do
     payable = Conty.Account.type_by_key(:payable)
-    receivable = Conty.Account.type_by_key(:receivalbe)
+    receivable = Conty.Account.type_by_key(:receivable)
     income = Conty.Account.type_by_key(:income)
-    bank = Conty.Account.type_by_key(:bank)
+    bank = Conty.Account.type_by_key(:cash)
 
     [
-      %{id: 1, name: "Income", type: income},
-      %{id: 2, name: "Payable", type: payable},
-      %{id: 3, name: "Reiceivable", type: receivable},
-      %{id: 4, name: "Bank", type: bank}
+      %{name: "Income", type: income},
+      %{name: "Payable", type: payable},
+      %{name: "Reiceivable", type: receivable},
+      %{name: "Bank", type: bank}
     ]
     |> Enum.each(fn account -> Conty.create_account(account) end)
 
@@ -48,4 +49,11 @@ defmodule TransactionIncomeTest do
 
     :ok
   end
+
+  def account(key) do
+   Conty.list_accounts_by_type([key])
+   |> List.first()
+   |> Map.get(:id)
+  end
+  def company, do: Conty.Company |> Repo.all |> List.first() |> Map.get(:id)
 end

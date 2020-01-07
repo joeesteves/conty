@@ -57,7 +57,7 @@ defimpl Conty.Transactionable, for: Conty.Transaction.Income do
 
     entry_items =
       for item <- income_items ++ due_items do
-        %{due: Map.get(item, :date), amount: item.amount, account_id: item.account_id}
+        %{due: Map.get(item, :date), amount: item.amount, account_id: item.account_id, company_id: Map.get(item, :company_id)}
       end
 
     entry_attrs = %{

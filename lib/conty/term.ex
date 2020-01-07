@@ -9,7 +9,9 @@ defmodule Conty.Term do
     field(:date, :date)
     field(:percent, :decimal)
     field(:amount, :decimal)
+
     field(:account_id, :integer)
+    field(:company_id, :integer)
   end
 
   def changeset(%Term{} = term, attrs) do
@@ -62,7 +64,8 @@ defmodule Conty.Term do
       date: transaction.due_base_date |> add(days),
       percent: percent,
       amount: Decimal.mult(percent, transaction.amount) |> Decimal.div(sign * 100),
-      account_id: transaction.account_due_id
+      account_id: transaction.account_due_id,
+      company_id: transaction.company_id
     }
   end
 

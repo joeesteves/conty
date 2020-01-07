@@ -11,6 +11,7 @@ defmodule Conty.EntryItem do
 
     belongs_to :entry, Entry
     belongs_to :account, Account
+    belongs_to :company, Conty.Company
   end
 
   def changeset(%EntryItem{} = entry_item, attrs) do
@@ -18,7 +19,8 @@ defmodule Conty.EntryItem do
     |> cast(attrs, [
       :due,
       :amount,
-      :account_id
+      :account_id,
+      :company_id
     ])
     |> foreign_key_constraint(:account_id)
   end
