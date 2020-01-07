@@ -14,6 +14,7 @@ defmodule Conty.Repo.Migrations.CreateTransactions do
       add(:account_due_id, references(:accounts))
       add(:account_pay_id, references(:accounts))
 
+      add(:company_id, references(:companies))
       # add(:organization_id, references(:organizations))
     end
 

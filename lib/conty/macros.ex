@@ -11,6 +11,7 @@ defmodule Conty.Transaction.Macros do
       field(:account_due_id, :integer)
       field(:account_pay_id, :integer)
       field(:organization_id, :integer)
+      field(:company_id, :integer)
 
       # Lite Has Many
       field(:items, {:array, :map}, default: [])

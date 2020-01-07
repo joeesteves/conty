@@ -21,6 +21,7 @@ defmodule Conty.Transaction do
     belongs_to(:account_pay, Conty.Account)
     # TODO: MAYBE has_many through later to support groups
     belongs_to(:entry, Conty.Entry)
+    belongs_to(:company, Conty.Company)
 
     if organization = Application.get_env(:conty, :options)[:organization_module] do
       belongs_to(:organization, organization)
@@ -33,16 +34,16 @@ defmodule Conty.Transaction do
   @callback accounts_for_items() :: [term]
   @callback accounts_for_due() :: [term]
   @callback accounts_for_pay() :: [term]
+
   def changeset(%Transaction{} = transaction, attrs) do
-    IO.inspect attrs
     transaction
     |> cast(attrs, casted_fields())
-    |> cast_assoc(:entry)
     |> cast_assoc(:items)
+    |> cast_assoc(:entry)
   end
 
   defp casted_fields do
-    ~w(date due_base_date amount type terms_generator account_due_id account_pay_id)a
+    ~w(date due_base_date amount type terms_generator account_due_id account_pay_id company_id)a
   end
 
   def casted_fields_flattened do

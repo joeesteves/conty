@@ -14,6 +14,7 @@ defmodule Conty.Transaction.Income do
   def changeset(%Transaction.Income{} = income, attrs) do
     income
     |> cast(attrs, Transaction.casted_fields_flattened() ++ [])
+    |> validate_required([:company_id])
   end
 
   def build(income) do

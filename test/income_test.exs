@@ -14,6 +14,7 @@ defmodule TransactionIncomeTest do
           terms_generator: "0",
           account_due_id: 3,
           account_pay_id: 4,
+          company_id: 1,
           items: [
             %{
               amount: 100,
@@ -41,6 +42,9 @@ defmodule TransactionIncomeTest do
       %{id: 4, name: "Bank", type: bank}
     ]
     |> Enum.each(fn account -> Conty.create_account(account) end)
+
+    # Create Company for transactions
+    %Conty.Company{id: 1, name: "The Buyer"} |> Conty.Repo.insert!
 
     :ok
   end
