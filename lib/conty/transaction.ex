@@ -19,8 +19,11 @@ defmodule Conty.Transaction do
 
     belongs_to(:account_due, Conty.Account)
     belongs_to(:account_pay, Conty.Account)
-    # TODO: MAYBE has_many through later to support groups
+
+    # TODO: MAYBE has_many through later to support batch transacctions
     belongs_to(:entry, Conty.Entry)
+
+    # Use company to free organization as suppliers
     belongs_to(:company, Conty.Company)
 
     if organization = Application.get_env(:conty, :options)[:organization_module] do
@@ -43,14 +46,6 @@ defmodule Conty.Transaction do
     |> validate_format(:terms_generator, Conty.Term.generatorFormat())
   end
 
-  defp casted_fields do
-    ~w(date due_base_date amount type terms_generator account_due_id account_pay_id company_id)a
-  end
-
-  def casted_fields_flattened do
-    casted_fields() ++ ~w(items)a
-  end
-
   def cast_from(transactionable) do
     Conty.Transactionable.cast_from(transactionable)
   end
@@ -65,6 +60,14 @@ defmodule Conty.Transaction do
     target_struct = apply(target_module, :__struct__, [])
 
     apply(__MODULE__, :cast_to, [target_struct, transaction])
+  end
+
+  def casted_fields_flattened do
+    casted_fields() ++ ~w(items)a
+  end
+
+  defp casted_fields do
+    ~w(date due_base_date amount type terms_generator account_due_id account_pay_id company_id)a
   end
 
   defmacro __using__(_opts) do
