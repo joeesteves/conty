@@ -49,6 +49,7 @@ defimpl Conty.Transactionable, for: Conty.Transaction.Income do
       |> build_entry()
 
     Transaction.changeset(%Transaction{}, income_attrs)
+    |> Ecto.Changeset.apply_changes()
   end
 
   defp build_entry(income_attrs) do
@@ -70,7 +71,9 @@ defimpl Conty.Transactionable, for: Conty.Transaction.Income do
   end
 
   def cast_to(_transactionable, %Transaction{} = transaction) do
-    income = %Income{} |> Map.merge(transaction)
+
+    income = Map.merge(transaction, %Income{})
+
     items = transaction.items |> Enum.map(&Map.from_struct/1)
 
     Map.put(income, :items, items)
