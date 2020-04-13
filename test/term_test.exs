@@ -10,9 +10,8 @@ defmodule TermTest do
       }
 
       result = Term.generate(transaction)
-      assert %{terms: terms} = result
-      assert terms |> length == 1
-      assert [%Term{} | _] = terms
+      assert result |> length == 1
+      assert [%Term{} | _] = result
     end
 
     test "generates 2 term" do
@@ -21,10 +20,9 @@ defmodule TermTest do
         terms_generator: "c2"
       }
 
-      result = Term.generate(transaction)
-      assert %{terms: [%Term{percent: percent} | _]  = terms} = result
-      assert terms |> length == 2
-      assert Decimal.eq?(percent, Decimal.cast(50))
+      [term | _] = result = Term.generate(transaction)
+      assert result |> length == 2
+      assert Decimal.eq?(term.percent, Decimal.cast(50))
     end
 
     test "generates 3 term, round in last" do
@@ -33,23 +31,24 @@ defmodule TermTest do
         terms_generator: "c3"
       }
 
-      result = Term.generate(transaction)
-      assert %{terms: [%Term{percent: percent}, _ , %{percent: percent2}]  = terms} = result
-      assert terms |> length == 3
-      assert Decimal.eq?(percent, Decimal.cast(33.33))
-      assert Decimal.eq?(percent2, Decimal.cast(33.34))
+      [term1, term2, term3] = result = Term.generate(transaction)
+      assert Decimal.eq?(term1.percent, Decimal.cast(33.33))
+      assert Decimal.eq?(term3.percent, Decimal.cast(33.34))
     end
+
     # TODO: c0 should return {:error, :bad_argument}
     test "generates error" do
-      transaction = %Transaction{
-        due_base_date: ~D[2020-01-01],
-        terms_generator: "c0"
-      }
+      transaction =
+        Transaction.changeset(
+          %Transaction{},
+          %{
+            due_base_date: ~D[2020-01-01],
+            terms_generator: "c0"
+          }
+        )
 
-      result = Term.generate(transaction)
-      assert %{terms: terms} = result
-      assert terms |> length == 1
-      assert [%Term{} | _] = terms
+      assert !transaction.valid?
+      ["has invalid format" | _] = Tuple.to_list(transaction.errors[:terms_generator])
     end
   end
 end

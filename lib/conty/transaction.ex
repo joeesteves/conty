@@ -11,9 +11,9 @@ defmodule Conty.Transaction do
   schema "transactions" do
     field(:date, :date)
     field(:due_base_date, :date)
-    field(:amount, :decimal)
+    field(:amount, :decimal, default: 0)
     field(:type, :string)
-    field(:terms_generator, :string)
+    field(:terms_generator, :string, default: "0")
 
     field(:terms, {:array, :map})
 
@@ -40,6 +40,7 @@ defmodule Conty.Transaction do
     |> cast(attrs, casted_fields())
     |> cast_assoc(:items)
     |> cast_assoc(:entry)
+    |> validate_format(:terms_generator, Conty.Term.generatorFormat())
   end
 
   defp casted_fields do
@@ -49,6 +50,7 @@ defmodule Conty.Transaction do
   def casted_fields_flattened do
     casted_fields() ++ ~w(items)a
   end
+
   def cast_from(transactionable) do
     Conty.Transactionable.cast_from(transactionable)
   end

@@ -17,7 +17,7 @@ defmodule TransactionTest do
     test ".cast_to_by_type/1" do
       # Helper infers type from Transaction and calls cast_to/2 👆
 
-      result = Transaction.cast_to_by_type(%Transaction{type: "income"})
+      result = Transaction.cast_to_type(%Transaction{type: "income"})
       assert %Income{} == result
     end
   end

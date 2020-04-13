@@ -21,11 +21,11 @@ defmodule Conty.Term do
   end
 
   def generatorFormat do
-    ~r/^((((\d{1,3}:\d{1,2}(,\s?)?)){1,5}|((\d{1,3}(,\s?)?)){1,5})|[C,c]\d{1,2})$/
+    ~r/^((((\d{1,3}:\d{1,2}(,\s?)?)){1,5}|((\d{1,3}(,\s?)?)){1,5})|[C,c][1-9][0-9])$/
   end
 
-  def generate(transaction, sign) do
-    D.set_context(%D.Context{D.get_context() | precision: 8})
+  def generate(transaction, sign \\ 1) do
+    D.set_context(%D.Context{D.get_context() | precision: 4})
 
     terms_generator = transaction.terms_generator
 
