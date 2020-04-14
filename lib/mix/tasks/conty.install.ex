@@ -51,7 +51,7 @@ defmodule Mix.Tasks.Conty.Install do
   end
 
   defp restamp(filename) do
-    String.replace(filename, ~r/\d+_/, ~s(#{timestamp()}_conty_))
+    String.replace(filename, ~r/(\d+)_/, ~s(\\1_#{timestamp()}_conty_))
   end
 
   defp timestamp do
