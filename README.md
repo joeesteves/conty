@@ -25,6 +25,6 @@ be found at [https://hexdocs.pm/conty](https://hexdocs.pm/conty).
 in your config.exs file
 
 config :conty, :options,
-  organization_module: 'Organization module related to transactions and entries, if module is passed here you must uncomment organization_id lines on migrations before running them'
+  organization_module: 'Organization module related to transactions and entries. If a module is passed here, you must uncomment organization_id lines on migrations before running them.'
 
 # conty
