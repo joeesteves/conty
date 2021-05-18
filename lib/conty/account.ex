@@ -1,4 +1,5 @@
 defmodule Conty.Account do
+  @moduledoc false
   use Ecto.Schema
 
   alias Conty.Account

@@ -10,7 +10,7 @@ defmodule Mix.Tasks.Conty.Install do
 
   @impl Mix.Task
   def run(_) do
-    if(in_host?()) do
+    if in_host?() do
       migration_path = "priv/repo/migrations/"
       conty_migration_path = Path.join(Application.app_dir(:conty), migration_path)
       host_migration_path = Path.join(File.cwd!(), migration_path)

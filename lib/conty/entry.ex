@@ -1,4 +1,5 @@
 defmodule Conty.Entry do
+  @moduledoc false
   use Ecto.Schema
 
   alias Conty.{Entry, EntryItem}
@@ -26,10 +27,14 @@ defmodule Conty.Entry do
   def validate_balance(changeset) do
     Ecto.Changeset.validate_change(changeset, :entry_items, fn _, _ ->
       items = Ecto.Changeset.apply_changes(changeset).entry_items
-      cond do
-        (Enum.map(items, &(Map.get(&1, :amount))) |> Enum.reduce(D.new(0), &D.add(&1, &2))) == D.new(0) -> []
-        true -> [error: "bad balance"]
-      end
+
+      if entry_balanced?(items), do: [], else: [error: "bad balance"]
     end)
+  end
+
+
+  defp entry_balanced?(items) do
+    Enum.map(items, & &1.amount)
+    |> Enum.reduce(D.new(0), &D.add(&1, &2)) == D.new(0)
   end
 end

@@ -1,5 +1,6 @@
 defmodule Conty.Application do
-  use Application
+  @moduledoc false
+   use Application
 
   def start(_type, _args) do
     children = [
