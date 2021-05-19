@@ -19,6 +19,7 @@ defmodule Conty.EntryItem do
       :amount,
       :account_id
     ])
+    |> validate_required(~w(amount entry_id account_id)a)
     |> foreign_key_constraint(:account_id)
   end
 end
