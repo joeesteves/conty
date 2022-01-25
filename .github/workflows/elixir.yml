@@ -11,6 +11,9 @@ jobs:
     name: Build and test
     runs-on: ubuntu-latest
 
+    env:
+      POSTGRES_PASSWORD: postgres
+
     services:
       postgres:
         image: postgres
@@ -24,8 +27,6 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Elixir
