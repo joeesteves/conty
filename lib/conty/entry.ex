@@ -1,6 +1,7 @@
 defmodule Conty.Entry do
   @moduledoc false
   use Ecto.Schema
+  import Ecto.Changeset
 
   alias Conty.{Entry, EntryItem}
   alias Decimal, as: D
@@ -16,19 +17,19 @@ defmodule Conty.Entry do
 
   def changeset(%Entry{} = entry, attrs) do
     entry
-    |> Ecto.Changeset.cast(attrs, [
+    |> cast(attrs, [
       :date,
       :description
     ])
-    |> Ecto.Changeset.cast_assoc(:entry_items)
+    |> cast_assoc(:entry_items)
     |> validate_balance
   end
 
   def validate_balance(changeset) do
-    Ecto.Changeset.validate_change(changeset, :entry_items, fn _, _ ->
-      items = Ecto.Changeset.apply_changes(changeset).entry_items
+    validate_change(changeset, :entry_items, fn _, _ ->
+      items = apply_changes(changeset).entry_items
 
-      if entry_balanced?(items), do: [], else: [error: "bad balance"]
+      if entry_balanced?(items), do: [], else: [base: "not balanced"]
     end)
   end
 
