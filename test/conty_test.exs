@@ -4,7 +4,7 @@ defmodule ContyTest do
 
   alias Conty.{Entry}
 
-  test "Entry validate balance" do
+  test "Entry not balanced is invalid" do
     changeset =
       %Entry{}
       |> Entry.changeset(%{
@@ -18,5 +18,20 @@ defmodule ContyTest do
 
     assert not changeset.valid?
     assert "not balanced" in errors_on(changeset).base
+  end
+
+  test "Entry balanced" do
+    changeset =
+      %Entry{}
+      |> Entry.changeset(%{
+        date: Date.utc_today(),
+        entry_items: [
+          %{amount: 100},
+          %{amount: -100}
+        ]
+      })
+
+
+    assert "not balanced" not in (errors_on(changeset)[:base] || [])
   end
 end
