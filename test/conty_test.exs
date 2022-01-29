@@ -4,14 +4,20 @@ defmodule ContyTest do
 
   alias Conty.{Entry}
 
-  test "Entry not balanced is invalid" do
+  setup_all do
+    {:ok, account} = Conty.create_account(%{name: "Test Account"})
+
+    [account: account]
+  end
+
+  test "Entry not balanced is invalid", context do
     changeset =
       %Entry{}
       |> Entry.changeset(%{
         date: Date.utc_today(),
         entry_items: [
-          %{amount: 100},
-          %{amount: -10}
+          %{amount: 100, account_id: context[:account].id},
+          %{amount: -10, account_id: context[:account].id}
         ]
       })
 
@@ -20,14 +26,14 @@ defmodule ContyTest do
     assert "not balanced" in errors_on(changeset).base
   end
 
-  test "Entry balanced" do
+  test "Entry balanced", context do
     changeset =
       %Entry{}
       |> Entry.changeset(%{
         date: Date.utc_today(),
         entry_items: [
-          %{amount: 100},
-          %{amount: -100}
+          %{amount: 100, account_id: context[:account].id},
+          %{amount: -100, account_id: context[:account].id}
         ]
       })
 
