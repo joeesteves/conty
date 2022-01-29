@@ -1,3 +1,5 @@
+[![Elixir CI](https://github.com/ponyesteves/conty/actions/workflows/elixir.yml/badge.svg)](https://github.com/ponyesteves/conty/actions/workflows/elixir.yml)
+
 # Conty
 
 **TODO: Add description**
