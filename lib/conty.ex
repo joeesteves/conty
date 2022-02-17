@@ -5,7 +5,7 @@ defmodule Conty do
   alias Conty.{Account, Entry}
 
   def repo do
-    Application.get_env(:conty, :ecto_repos) |> List.first
+    Application.get_env(:conty, :ecto_repos) |> List.first()
   end
 
   def list_accounts() do
@@ -19,6 +19,12 @@ defmodule Conty do
     |> repo().insert()
   end
 
+  def delete_account(%Account{} = account) do
+    account
+    |> Account.changeset(%{})
+    |> Ecto.Changeset.no_assoc_constraint(:entry_items)
+    |> (fn account -> repo().delete(account) end).()
+  end
 
   def list_entries() do
     Entry

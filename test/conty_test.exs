@@ -10,7 +10,7 @@ defmodule ContyTest do
     [account: account]
   end
 
-  test "Entry not balanced is invalid", context do
+  test "unbalanced Entry is invalid", context do
     changeset =
       %Entry{}
       |> Entry.changeset(%{
@@ -21,12 +21,11 @@ defmodule ContyTest do
         ]
       })
 
-
     assert not changeset.valid?
-    assert "not balanced" in errors_on(changeset).base
+    assert Enum.join(errors_on(changeset).base) =~ ~r/not balanced/
   end
 
-  test "Entry balanced", context do
+  test "balanced Entry", context do
     changeset =
       %Entry{}
       |> Entry.changeset(%{
@@ -37,7 +36,22 @@ defmodule ContyTest do
         ]
       })
 
+    assert not (Enum.join(errors_on(changeset)[:base] || [], "") =~ ~r/not balanced/)
+  end
 
-    assert "not balanced" not in (errors_on(changeset)[:base] || [])
+  describe "delete_account" do
+    test "ensure there are no associated items", context do
+      {:ok, entry} =
+        Conty.create_entry(%{
+          date: Date.utc_today(),
+          entry_items: [
+            %{amount: 100, account_id: context[:account].id},
+            %{amount: -100, account_id: context[:account].id}
+          ]
+        })
+
+      assert {:error, changeset} = Conty.delete_account(context[:account])
+      assert "are still associated with this entry" in errors_on(changeset)[:entry_items]
+    end
   end
 end

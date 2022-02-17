@@ -1,5 +1,7 @@
 defmodule Conty.EntryItem do
-  @moduledoc  false
+  @moduledoc  """
+    The lines in the Journal Entry
+  """
   use Ecto.Schema
 
   import Ecto.Changeset
@@ -11,15 +13,18 @@ defmodule Conty.EntryItem do
 
     belongs_to :entry, Entry
     belongs_to :account, Account
+
+    # i.e. the expense account on a payable entry
+    belongs_to :source, Account
   end
 
   def changeset(%EntryItem{} = entry_item, attrs) do
     entry_item
     |> cast(attrs, [
       :amount,
-      :account_id
+      :account_id,
+      :source_id
     ])
     |> validate_required(~w(amount account_id)a)
-    |> foreign_key_constraint(:account_id)
   end
 end
