@@ -6,10 +6,11 @@ defmodule Conty.EntryItem do
 
   import Ecto.Changeset
 
-  alias Conty.{Account, Entry, EntryItem}
+  alias Conty.{Account, Entry}
 
   schema "entry_items" do
     field :amount, :decimal
+    field :due_date, :date
 
     belongs_to :entry, Entry
     belongs_to :account, Account
@@ -18,7 +19,7 @@ defmodule Conty.EntryItem do
     belongs_to :source, Account
   end
 
-  def changeset(%EntryItem{} = entry_item, attrs) do
+  def changeset(%__MODULE__{} = entry_item, attrs) do
     entry_item
     |> cast(attrs, [
       :amount,

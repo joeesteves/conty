@@ -5,7 +5,8 @@ defmodule Conty do
   alias Conty.{Account, Entry}
 
   def repo do
-    Application.get_env(:conty, :ecto_repos) |> List.first()
+    Application.get_env(:conty, :ecto_repos)
+    |> List.first()
   end
 
   def list_accounts() do

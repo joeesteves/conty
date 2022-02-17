@@ -40,8 +40,8 @@ defmodule ContyTest do
   end
 
   describe "delete_account" do
-    test "ensure there are no associated items", context do
-      {:ok, entry} =
+    test "ensure there are no associated entry items", context do
+      {:ok, _entry} =
         Conty.create_entry(%{
           date: Date.utc_today(),
           entry_items: [
