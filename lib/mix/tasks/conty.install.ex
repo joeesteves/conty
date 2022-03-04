@@ -19,6 +19,7 @@ defmodule Mix.Tasks.Conty.Install do
 
       conty_migration_path
       |> File.ls!()
+      |> Enum.sort
       |> Enum.each(fn migration_filename ->
         target_path = Path.join(host_migration_path, restamp(migration_filename))
 
