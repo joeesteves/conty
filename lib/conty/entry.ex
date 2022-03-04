@@ -6,7 +6,7 @@ defmodule Conty.Entry do
 
   import Ecto.Changeset
 
-  alias Conty.{Entry, EntryItem}
+  alias Conty.{Entry, EntryItem, Organization}
   alias Decimal, as: D
 
   schema "entries" do
@@ -15,6 +15,8 @@ defmodule Conty.Entry do
 
     has_many :entry_items, EntryItem
 
+    belongs_to :organization, Organization
+
     timestamps()
   end
 
@@ -22,7 +24,8 @@ defmodule Conty.Entry do
     entry
     |> cast(attrs, [
       :date,
-      :description
+      :description,
+      :organization_id
     ])
     |> cast_assoc(:entry_items)
     |> validate_balance
