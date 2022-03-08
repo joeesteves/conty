@@ -10,20 +10,15 @@ defmodule Conty.Organization do
 
   import Ecto.Changeset
 
-  alias Conty.{Entry, EntryItem}
-  alias Decimal, as: D
-
   schema "organizations" do
     field(:name, :string)
-
-    has_many(:entries, Entry)
 
     timestamps()
   end
 
-  def changeset(%Entry{} = entry, attrs) do
-    entry
+  def changeset(%Conty.Organization{} = organization, attrs) do
+    organization
     |> cast(attrs, [:name])
-    |> validate_required(attrs, [:name])
+    |> validate_required([:name])
   end
 end
