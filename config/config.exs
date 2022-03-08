@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :conty, Conty.Repo,
   database: "conty_dev",

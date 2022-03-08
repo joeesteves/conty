@@ -6,6 +6,8 @@ defmodule Conty.Repo.Migrations.CreateEntries do
       add(:date, :date)
       add(:description, :string)
 
+      add :organization_id, references(:organizations)
+
       timestamps()
     end
   end
