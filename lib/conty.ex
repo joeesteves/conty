@@ -2,10 +2,17 @@ defmodule Conty do
   @moduledoc false
   import Ecto.Query, warn: false
 
-  alias Conty.{Account, Entry}
+  alias Conty.{Account, Entry, Organization}
 
   def repo do
     hd(Application.get_env(:conty, :ecto_repos))
+  end
+
+
+  def create_organization(attrs \\ %{}) do
+    %Organization{}
+    |> Organization.changeset(attrs)
+    |> repo().insert()
   end
 
   def list_accounts() do

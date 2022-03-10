@@ -2,8 +2,6 @@
 
 # Conty
 
-**TODO: Add description**
-
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
@@ -22,4 +20,11 @@ and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/conty](https://hexdocs.pm/conty).
 
 `mix conty install to migrations`
-# conty
+# Config
+
+### To enable and validate organization_id on accounts and entry you should add to your `config/config.exs`
+
+```elixir
+  config :conty, use_organization: true
+```
+
