@@ -4,10 +4,12 @@ defmodule Conty.Account do
 
   import Ecto.Changeset
 
-  alias Conty.{Account, EntryItem}
+  alias Conty.{Account, EntryItem, Organization}
 
   schema "accounts" do
     field(:name, :string)
+
+    belongs_to :organization, Organization
 
     has_many :entry_items, EntryItem
 
