@@ -20,6 +20,11 @@ defmodule Conty do
     |> repo().all()
   end
 
+  def list_accounts_by_organization(organization_id) do
+    from(a in Account, where: a.organization_id == ^organization_id)
+    |> repo().all()
+  end
+
   def create_account(attrs \\ %{}) do
     %Account{}
     |> Account.changeset(attrs)
