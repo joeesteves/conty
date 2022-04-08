@@ -1,5 +1,6 @@
 defmodule Conty do
   @moduledoc false
+
   import Ecto.Query, warn: false
 
   alias Conty.{Account, Entry, Organization}
@@ -7,7 +8,6 @@ defmodule Conty do
   def repo do
     hd(Application.get_env(:conty, :ecto_repos))
   end
-
 
   def create_organization(attrs \\ %{}) do
     %Organization{}
@@ -48,5 +48,13 @@ defmodule Conty do
     %Entry{}
     |> Entry.changeset(attrs)
     |> repo().insert()
+  end
+
+  def debit_items(fact) do
+    Enum.filter(fact.items, &(&1.side == :debit))
+  end
+
+  def credit_items(fact) do
+    Enum.filter(fact.items, &(&1.side == :credit))
   end
 end

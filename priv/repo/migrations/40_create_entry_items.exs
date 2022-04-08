@@ -3,12 +3,14 @@ defmodule Conty.Repo.Migrations.CreateEntryItems do
 
   def change do
     create table(:entry_items) do
-      add :amount, :decimal
-      add :due_date, :date
+      add(:amount, :decimal)
+      add(:due_date, :date)
 
-      add :entry_id, references(:entries, on_delete: :delete_all)
-      add :account_id, references(:accounts)
-      add :source_id, references(:accounts)
+      add(:side, :string)
+
+      add(:entry_id, references(:entries, on_delete: :delete_all))
+      add(:account_id, references(:accounts))
+      add(:source_id, references(:accounts))
     end
 
     create(index(:entry_items, [:entry_id]))

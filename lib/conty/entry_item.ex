@@ -1,5 +1,5 @@
 defmodule Conty.EntryItem do
-  @moduledoc  """
+  @moduledoc """
     The lines in the Journal Entry
   """
   use Ecto.Schema
@@ -9,14 +9,16 @@ defmodule Conty.EntryItem do
   alias Conty.{Account, Entry}
 
   schema "entry_items" do
-    field :amount, :decimal
-    field :due_date, :date
+    field(:amount, :decimal)
+    field(:due_date, :date)
 
-    belongs_to :entry, Entry
-    belongs_to :account, Account
+    field(:side, Ecto.Enum, values: [:debit, :credit])
+
+    belongs_to(:entry, Entry)
+    belongs_to(:account, Account)
 
     # i.e. the expense account on a payable entry
-    belongs_to :source, Account
+    belongs_to(:source, Account)
   end
 
   def changeset(%__MODULE__{} = entry_item, attrs) do
