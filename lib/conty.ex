@@ -54,7 +54,17 @@ defmodule Conty do
     Enum.filter(fact.items, &(&1.side == :debit))
   end
 
+  def first_debit_item(fact) do
+    debit_items(fact)
+    |> List.first()
+  end
+
   def credit_items(fact) do
     Enum.filter(fact.items, &(&1.side == :credit))
+  end
+
+  def first_credit_item(fact) do
+    credit_items(fact)
+    |> List.first()
   end
 end
