@@ -31,6 +31,10 @@ defmodule Conty do
     |> repo().insert()
   end
 
+  def change_account(%Account{} = account, attrs \\ %{}) do
+    Account.changeset(account, attrs)
+  end
+
   def delete_account(%Account{} = account) do
     account
     |> Account.changeset(%{})
