@@ -35,6 +35,12 @@ defmodule Conty do
     Account.changeset(account, attrs)
   end
 
+  def update_account(%Account{} = account, attrs \\ %{}) do
+    account
+    |> Account.changeset(attrs)
+    |> repo().update()
+  end
+
   def delete_account(%Account{} = account) do
     account
     |> Account.changeset(%{})
